@@ -1,11 +1,18 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [consolelog, setConsolelog] = useState(null);
+  const searchParams = useSearchParams();
+  const accessToken = searchParams.get("accessToken");
+
   const handleTest = () => {
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+    if (accessToken)
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+
     // 200 성공
     axios
       .get(`/hello`, {
@@ -41,7 +48,7 @@ export default function Home() {
     <>
       <h2>Hello ChatUp</h2>
       <div>
-        <button onClick={handleTest}>Axios Test</button>
+        <button onClick={handleTest}>JWT Test</button>
       </div>
       <div>
         <button onClick={handleNick}>NickName Input</button>
