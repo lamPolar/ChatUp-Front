@@ -2,6 +2,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from 'react'
+
 
 export default function Home(){
   return (
