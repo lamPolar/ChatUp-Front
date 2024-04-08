@@ -3,7 +3,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function Home() {
+export default function Home(){
+  return (
+    <Suspense>
+      <Search />
+    </Suspense>
+    );
+}
+
+function Search() {
   const [consolelog, setConsolelog] = useState(null);
   const searchParams = useSearchParams();
   const accessToken = searchParams.get("accessToken");
