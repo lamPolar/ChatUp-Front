@@ -1,9 +1,10 @@
 "use client";
 import axios from "axios";
-import { useEffect } from "react";
+import { useState } from "react";
 
 export default function Home() {
-  useEffect(() => {
+  const [consolelog, setConsolelog] = useState(null);
+  const handleTest = () => {
     axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
     // 200 성공
     axios
@@ -18,16 +19,34 @@ export default function Home() {
     // 403 에러 발생
     axios
       .get("/hi")
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .then((res) => setConsolelog(res.data))
+      .catch((err) => setConsolelog(err.response.data));
+  };
+
+  const handleNick = () => {
+    const nick = prompt("닉네임을 입력해주세요");
+    axios
+      .post("/user/nickname", { nickname: nick })
+      .then((res) => {
+        setConsolelog(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        setConsolelog(err.response.data);
+      });
+  };
+
   return (
     <>
-      <header>
-        <div>Chat</div>
-        <div>Setting</div>
-      </header>
-      Hello ChatUp
+      <h2>Hello ChatUp</h2>
+      <div>
+        <button onClick={handleTest}>Axios Test</button>
+      </div>
+      <div>
+        <button onClick={handleNick}>NickName Input</button>
+      </div>
+      <div className="text-red-200">{consolelog}</div>
     </>
   );
 }
