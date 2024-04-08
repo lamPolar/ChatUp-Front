@@ -1,19 +1,8 @@
 "use client";
-import axios from "axios";
 
 export default function Login() {
   const handleLogin = () => {
-    axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
-
-    axios
-      .post("/oauth2/authorization/google", null, {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/google`;
   };
 
   return (
